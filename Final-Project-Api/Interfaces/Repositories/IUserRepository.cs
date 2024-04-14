@@ -8,7 +8,6 @@ namespace Final_Project_Api.Interfaces.Repositories
     {
         Task<AuthModel> RegisterAsync(RegisterDto register);
         Task<AuthModel> GetTokenAsync(LoginDto login);
-        Task<string> AddRoleAsync(AddRoleModelDto addRoleModel);
         Task<JwtSecurityToken> GenerateJwtToken(ApplicationUser user);
     }
 }

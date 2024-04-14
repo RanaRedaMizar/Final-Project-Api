@@ -2,7 +2,6 @@
 using Final_Project_Api.Data.Models;
 using Final_Project_Api.Interfaces.Repositories;
 using Final_Project_Api.Interfaces.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,11 +23,11 @@ namespace Final_Project_Api.Controllers
             _webHostEnvironment = webHostEnvironment;
             _userManager = userManager;
             this.auth = auth;
-            
+
         }
 
 
-       
+
 
 
 
@@ -86,8 +85,8 @@ namespace Final_Project_Api.Controllers
                     Email = doctor.Email,
                     FirstName = doctor.FirstName,
                     LastName = doctor.LastName,
+                    Address = doctor.Address,
                     Phone = doctor.Phone,
-                    UserName = doctor.UserName,
                     SpecializeId = doctor.SpecializeId,
                 };
 
@@ -110,14 +109,14 @@ namespace Final_Project_Api.Controllers
                     return BadRequest(ModelState);
                 }
 
-          /**      var imageFile = addDoctor.ImageFile;
+                /**      var imageFile = addDoctor.ImageFile;
 
-                if (imageFile != null && imageFile.Length > 0)
-                {
-                    var imagePath = ProcessImageFile(imageFile);
-                    addDoctor.Image = imagePath;
-                }
-          **/
+                      if (imageFile != null && imageFile.Length > 0)
+                      {
+                          var imagePath = ProcessImageFile(imageFile);
+                          addDoctor.Image = imagePath;
+                      }
+                **/
                 var user = new ApplicationUser
                 {
                     FirstName = addDoctor.FirstName,
@@ -125,15 +124,15 @@ namespace Final_Project_Api.Controllers
                     Email = addDoctor.Email,
                     Image = addDoctor.Image,
                     Phone = addDoctor.Phone,
-                    UserName = addDoctor.UserName,
                     Gender = addDoctor.Gender,
+                    Address = addDoctor.Address,
                 };
 
                 var result = await _userManager.CreateAsync(user, addDoctor.Password);
 
                 if (!result.Succeeded)
                 {
-                    return BadRequest(new { Message = "Failed to create Doctor", Errors = result.Errors });
+                    return BadRequest(new { Message = "Failed to create Doctor", result.Errors });
                 }
 
                 await _userManager.AddToRoleAsync(user, "Doctor");
@@ -148,8 +147,9 @@ namespace Final_Project_Api.Controllers
                     Image = user.Image,
                     Phone = user.Phone,
                     Gender = user.Gender,
-                    UserName = user.UserName,
-                    SpecializeId = addDoctor.SpecializeId,
+                    Address = user.Address,
+
+        SpecializeId = addDoctor.SpecializeId,
                 };
 
                 var addDoctorResult = _doctorservice.AddDoctor(addDoctor);
@@ -228,6 +228,6 @@ namespace Final_Project_Api.Controllers
 
 
 
-      
+
     }
 }

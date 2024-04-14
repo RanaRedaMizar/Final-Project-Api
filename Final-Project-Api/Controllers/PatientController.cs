@@ -84,8 +84,8 @@ namespace Final_Project_Api.Controllers
                     Email = patient.Email,
                     FirstName = patient.FirstName,
                     LastName = patient.LastName,
+                    Address = patient.Address,
                     Phone = patient.PhoneNumber,
-                    UserName = patient.UserName,
                    
                 };
 
@@ -123,7 +123,7 @@ namespace Final_Project_Api.Controllers
                     Email = addPateint.Email,
                     Image = addPateint.Image,
                     Phone = addPateint.Phone,
-                    UserName = addPateint.UserName,
+                    Address = addPateint.Address,
                     Gender = addPateint.Gender,
                 };
 
@@ -147,8 +147,8 @@ namespace Final_Project_Api.Controllers
                     Image = user.Image,
                     Phone = user.Phone,
                     Gender = user.Gender,
-                    UserName = user.UserName,
-                    
+                    Address = user.Address,
+
                 };
 
                 var addPateintResult = _patientService.AddPatient(addPateint);
@@ -182,42 +182,6 @@ namespace Final_Project_Api.Controllers
             return $"/images/{uniqueFileName}";
         }
 
-
-
-
-        [HttpPost("search")]
-        public async Task<IActionResult> SearchPatient([FromForm] string name)
-        {
-            try
-            {
-                var pateint = _patientService.SearchPatient(name);
-
-                if (pateint == null)
-                {
-                    return NotFound();
-                }
-
-                var pateintDto = new PateintDTO()
-                {
-                    Id = pateint.Id,
-                    BirthDate = pateint.BirthDate,
-                    Image = pateint.Image,
-                    Gender = pateint.Gender,
-                    Email = pateint.Email,
-                    FirstName = pateint.FirstName,
-                    LastName = pateint.LastName,
-                    Password = pateint.PasswordHash,
-                    Phone = pateint.Phone
-                };
-
-
-                return Ok(pateintDto);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-            }
-        }
 
         [HttpPut("UpdatePatient")]
         public async Task<IActionResult> UpdatePatient(string id, [FromBody] PateintDTO pateintdtO)

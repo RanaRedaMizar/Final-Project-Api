@@ -30,12 +30,7 @@ namespace Final_Project_Api.Infrastructure.Services
 
         }
 
-        public async Task<string> AddRoleAsync(AddRoleModelDto addRoleModel)
-        {
-
-            return await _userRepository.AddRoleAsync(addRoleModel);
-
-        }
+       
 
 
     }

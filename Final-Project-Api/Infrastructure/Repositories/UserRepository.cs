@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Numerics;
 using System.Security.Claims;
 using System.Text;
 
@@ -33,9 +34,6 @@ namespace Final_Project_Api.Infrastructure.Repositories
 
                 return new AuthModel { Message = "Email is Already Registread" };
 
-            if (await _userManager.FindByNameAsync(register.Username) is not null)
-                return new AuthModel { Message = "Username is Already Registread" };
-
             var user = new ApplicationUser
             {
 
@@ -44,7 +42,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
                 Email = register.Email,
                 Image = register.Image,
                 Phone = register.Phone,
-                UserName = register.Username,
+                Address = register.Address,
                 Gender = register.Gender,
             };
 
@@ -71,6 +69,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
                 LastName = register.LastName,
                 Gender = register.Gender,
                 Image = register.Image,
+                Address = register.Address,
                 BirthDate = register.Birthdate
             };
 
@@ -87,7 +86,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
                 IsAuthenticated = true,
                 Roles = new List<string> { "Patient" },
                 Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
-                Username = user.UserName
+                
 
             };
         }
@@ -107,7 +106,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
 
             var Claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
+               // new Claim(JwtRegisteredClaimNames.Sub,user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email,user.Email),
                 new Claim("uid",user.Id),
@@ -174,22 +173,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
         }
 
 
-        public async Task<string> AddRoleAsync(AddRoleModelDto addRoleModel)
-        {
-            var user = await _userManager.FindByIdAsync(addRoleModel.UserId);
-
-            if (user is null || !await _roleManager.RoleExistsAsync(addRoleModel.RoleName))
-                return "Invalid user id or Role name";
-
-
-            if (await _userManager.IsInRoleAsync(user, addRoleModel.RoleName))
-                return "user already assigned to this role";
-
-            var result = await _userManager.AddToRoleAsync(user, addRoleModel.RoleName);
-
-            return result.Succeeded ? string.Empty : "Somthing went wrong";
-
-        }
+      
 
     }
 }

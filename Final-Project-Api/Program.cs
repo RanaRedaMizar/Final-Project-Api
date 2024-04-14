@@ -1,4 +1,4 @@
-using Final_Project_Api.ActionFilters;
+
 using Final_Project_Api.Data;
 using Final_Project_Api.Data.Models;
 using Final_Project_Api.Infrastructure.Helpers;
@@ -32,7 +32,7 @@ namespace Final_Project_Api
                     token =>
                     {
                         var key = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(builder.Configuration["JWT:key"])
+                            Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"])
                         );
             token.TokenValidationParameters = new TokenValidationParameters()
             {

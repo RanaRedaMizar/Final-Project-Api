@@ -33,7 +33,8 @@ namespace Final_Project_Api.Infrastructure.Repositories
                         Image = doctorDto.Image,
                         Gender = doctorDto.Gender,
                         Phone = doctorDto.Phone,
-                        UserName = doctorDto.UserName,
+                        Address = doctorDto.Address,
+                      //  UserName = doctorDto.UserName,
                         SpecializeId = doctorDto.SpecializeId,
 
                     };
@@ -136,6 +137,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
                 currentDoctor.Email = updatedDoctor.Email;
                 currentDoctor.Phone = updatedDoctor.Phone;
                 currentDoctor.Gender = updatedDoctor.Gender;
+                currentDoctor.Address = updatedDoctor.Address;
                 currentDoctor.BirthDate = updatedDoctor.BirthDate;
 
                 _context.SaveChanges();

@@ -13,8 +13,8 @@ namespace Final_Project_Api.Data.DToModels
 
         [Required, MinLength(3), MaxLength(64)]
         public string LastName { get; set; }
-        public string FullName => $"{FirstName} {LastName}";
-        public string Username { get; set; }
+
+        public string Address { get; set; }
         public DateTime Birthdate { get; set; }
 
         [Required, RegularExpression(@"^01[0125]\d{8}$")]

@@ -31,8 +31,8 @@ namespace Final_Project_Api.Infrastructure.Repositories
                         Image = pateintDTO.Image,
                         Gender = pateintDTO.Gender,
                         Phone = pateintDTO.Phone,
-                        UserName = pateintDTO.UserName,
-                      
+                        Address = pateintDTO.Address,
+
                     };
 
                     _context.Patients.Add(patient);
@@ -121,6 +121,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
                 currentPatient.Email = updatedPatient.Email;
                 currentPatient.Phone = updatedPatient.Phone;
                 currentPatient.Gender = updatedPatient.Gender;
+                currentPatient.Address = updatedPatient.Address;
                 currentPatient.BirthDate = updatedPatient.BirthDate;
 
                 _context.SaveChanges();

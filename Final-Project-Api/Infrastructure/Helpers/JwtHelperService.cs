@@ -14,7 +14,7 @@ namespace Final_Project_Api.Infrastructure.Helpers
         public JwtHelperService(IConfiguration configuration)
         {
             this.configuration = configuration;
-            key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:key"]));
+            key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:SecretKey"]));
         }
 
         public ClaimsPrincipal DecodeToken(string accessToken)

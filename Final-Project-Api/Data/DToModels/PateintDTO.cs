@@ -15,8 +15,7 @@ namespace Final_Project_Api.Data.DToModels
 
         [Required, MinLength(3), MaxLength(64)]
         public string LastName { get; set; }
-        public string UserName { get; set; }
-        public string FullName => $"{FirstName} {LastName}";
+        public string Address { get; set; }
         public DateTime BirthDate { get; set; }
         [Required, RegularExpression(@"^01[0125]\d{8}$")]
         public string Phone { get; set; }

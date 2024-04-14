@@ -7,6 +7,6 @@ namespace Final_Project_Api.Interfaces.Services
     {
         Task<AuthModel> RegisterAsync(RegisterDto register);
         Task<AuthModel> GetTokenAsync(LoginDto login);
-        Task<string> AddRoleAsync(AddRoleModelDto addRoleModel);
+       
     }
 }

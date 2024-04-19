@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Final_Project_Api.Migrations
 {
     /// <inheritdoc />
-    public partial class DataBase : Migration
+    public partial class MYDATABASE : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,21 +15,21 @@ namespace Final_Project_Api.Migrations
                 name: "AnalysisTypes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    AnalysisTypeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AnalysisTypes", x => x.Id);
+                    table.PrimaryKey("PK_AnalysisTypes", x => x.AnalysisTypeId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Diseases",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    DiseaseId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -37,14 +37,14 @@ namespace Final_Project_Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Diseases", x => x.Id);
+                    table.PrimaryKey("PK_Diseases", x => x.DiseaseId);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Medicines",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    MedicineId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GenericName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BrandName = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -52,7 +52,7 @@ namespace Final_Project_Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Medicines", x => x.Id);
+                    table.PrimaryKey("PK_Medicines", x => x.MedicineId);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,7 +81,7 @@ namespace Final_Project_Api.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
                     AccessFailedCount = table.Column<int>(type: "int", nullable: false),
-                    
+                   
                 },
                 constraints: table =>
                 {
@@ -92,13 +92,13 @@ namespace Final_Project_Api.Migrations
                 name: "Specializations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    SpecializationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specializations", x => x.Id);
+                    table.PrimaryKey("PK_Specializations", x => x.SpecializationId);
                 });
 
             migrationBuilder.CreateTable(
@@ -137,7 +137,7 @@ namespace Final_Project_Api.Migrations
                         name: "FK_Doctors_Specializations_SpecializeId",
                         column: x => x.SpecializeId,
                         principalTable: "Specializations",
-                        principalColumn: "Id",
+                        principalColumn: "SpecializationId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -145,7 +145,7 @@ namespace Final_Project_Api.Migrations
                 name: "Appointments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    AppointmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Day = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -155,7 +155,7 @@ namespace Final_Project_Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Appointments", x => x.Id);
+                    table.PrimaryKey("PK_Appointments", x => x.AppointmentId);
                     table.ForeignKey(
                         name: "FK_Appointments_Doctors_DoctorId",
                         column: x => x.DoctorId,
@@ -165,104 +165,10 @@ namespace Final_Project_Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppointmentAnalyses",
-                columns: table => new
-                {
-                    AppointmentId = table.Column<int>(type: "int", nullable: false),
-                    AnalysisTypeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppointmentAnalyses", x => new { x.AppointmentId, x.AnalysisTypeId });
-                    table.ForeignKey(
-                        name: "FK_AppointmentAnalyses_AnalysisTypes_AnalysisTypeId",
-                        column: x => x.AnalysisTypeId,
-                        principalTable: "AnalysisTypes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AppointmentAnalyses_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalTable: "Appointments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppointmentDiagnoses",
-                columns: table => new
-                {
-                    AppointmentId = table.Column<int>(type: "int", nullable: false),
-                    DiseaseId = table.Column<int>(type: "int", nullable: false),
-                    DiagnosesReport = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppointmentDiagnoses", x => new { x.AppointmentId, x.DiseaseId });
-                    table.ForeignKey(
-                        name: "FK_AppointmentDiagnoses_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalTable: "Appointments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AppointmentDiagnoses_Diseases_DiseaseId",
-                        column: x => x.DiseaseId,
-                        principalTable: "Diseases",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppointmentMedicines",
-                columns: table => new
-                {
-                    AppointmentId = table.Column<int>(type: "int", nullable: false),
-                    MedicineId = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppointmentMedicines", x => new { x.AppointmentId, x.MedicineId });
-                    table.ForeignKey(
-                        name: "FK_AppointmentMedicines_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalTable: "Appointments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AppointmentMedicines_Medicines_MedicineId",
-                        column: x => x.MedicineId,
-                        principalTable: "Medicines",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppointmentTimes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AppointmentId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppointmentTimes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AppointmentTimes_Appointments_AppointmentId",
-                        column: x => x.AppointmentId,
-                        principalTable: "Appointments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Bookings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    BookingId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETUTCDATE()"),
@@ -275,12 +181,12 @@ namespace Final_Project_Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bookings", x => x.Id);
+                    table.PrimaryKey("PK_Bookings", x => x.BookingId);
                     table.ForeignKey(
                         name: "FK_Bookings_Appointments_AppointmentId",
                         column: x => x.AppointmentId,
                         principalTable: "Appointments",
-                        principalColumn: "Id",
+                        principalColumn: "AppointmentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bookings_Doctors_DoctorId",
@@ -292,6 +198,80 @@ namespace Final_Project_Api.Migrations
                         column: x => x.PatientId,
                         principalTable: "Patients",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppointmentAnalyses",
+                columns: table => new
+                {
+                    BookingId = table.Column<int>(type: "int", nullable: false),
+                    AnalysisTypeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentAnalyses", x => new { x.BookingId, x.AnalysisTypeId });
+                    table.ForeignKey(
+                        name: "FK_AppointmentAnalyses_AnalysisTypes_AnalysisTypeId",
+                        column: x => x.AnalysisTypeId,
+                        principalTable: "AnalysisTypes",
+                        principalColumn: "AnalysisTypeId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppointmentAnalyses_Bookings_BookingId",
+                        column: x => x.BookingId,
+                        principalTable: "Bookings",
+                        principalColumn: "BookingId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppointmentDiagnoses",
+                columns: table => new
+                {
+                    BookingId = table.Column<int>(type: "int", nullable: false),
+                    DiseaseId = table.Column<int>(type: "int", nullable: false),
+                    DiagnosesReport = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentDiagnoses", x => new { x.BookingId, x.DiseaseId });
+                    table.ForeignKey(
+                        name: "FK_AppointmentDiagnoses_Bookings_BookingId",
+                        column: x => x.BookingId,
+                        principalTable: "Bookings",
+                        principalColumn: "BookingId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppointmentDiagnoses_Diseases_DiseaseId",
+                        column: x => x.DiseaseId,
+                        principalTable: "Diseases",
+                        principalColumn: "DiseaseId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppointmentMedicines",
+                columns: table => new
+                {
+                    BookingId = table.Column<int>(type: "int", nullable: false),
+                    MedicineId = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppointmentMedicines", x => new { x.BookingId, x.MedicineId });
+                    table.ForeignKey(
+                        name: "FK_AppointmentMedicines_Bookings_BookingId",
+                        column: x => x.BookingId,
+                        principalTable: "Bookings",
+                        principalColumn: "BookingId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppointmentMedicines_Medicines_MedicineId",
+                        column: x => x.MedicineId,
+                        principalTable: "Medicines",
+                        principalColumn: "MedicineId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -313,11 +293,6 @@ namespace Final_Project_Api.Migrations
                 name: "IX_Appointments_DoctorId",
                 table: "Appointments",
                 column: "DoctorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AppointmentTimes_AppointmentId",
-                table: "AppointmentTimes",
-                column: "AppointmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_AppointmentId",
@@ -353,16 +328,13 @@ namespace Final_Project_Api.Migrations
                 name: "AppointmentMedicines");
 
             migrationBuilder.DropTable(
-                name: "AppointmentTimes");
-
-            migrationBuilder.DropTable(
-                name: "Bookings");
-
-            migrationBuilder.DropTable(
                 name: "AnalysisTypes");
 
             migrationBuilder.DropTable(
                 name: "Diseases");
+
+            migrationBuilder.DropTable(
+                name: "Bookings");
 
             migrationBuilder.DropTable(
                 name: "Medicines");

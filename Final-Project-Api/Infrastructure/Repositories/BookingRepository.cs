@@ -22,7 +22,6 @@ namespace Final_Project_Api.Infrastructure.Repositories
             var booking = new Booking
             {
                 Status = bookingDto.Status,
-                Price = bookingDto.FinalPrice,
                 Appointment = bookingDto.Appointment,
                 Patient = bookingDto.Patient,
                 TotalBookings = bookingDto.TotalBookings,

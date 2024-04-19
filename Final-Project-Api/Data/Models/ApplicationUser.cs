@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Final_Project_Api.Data.Enums;
-using Final_Project_Api.Data.Validations;
 
 namespace Final_Project_Api.Data.Models
 {

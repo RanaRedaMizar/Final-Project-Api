@@ -1,4 +1,5 @@
-﻿using Final_Project_Api.Data.DToModels;
+﻿using Final_Project_Api.Data;
+using Final_Project_Api.Data.DToModels;
 using Final_Project_Api.Data.Models;
 using Final_Project_Api.Interfaces.Repositories;
 using Final_Project_Api.Interfaces.Services;
@@ -28,10 +29,7 @@ namespace Final_Project_Api.Controllers
 
 
 
-
-
-
-        [HttpGet("GetPaginatedDoctors")]
+        [HttpGet("GetAllDoctors")]
         public async Task<IActionResult> GetDoctors(int page = 1, int pageSize = 2, string search = "")
         {
             try
@@ -78,7 +76,7 @@ namespace Final_Project_Api.Controllers
 
                 var doctorDto = new DoctorDTO()
                 {
-                    Id = doctor.Id,
+                    DoctorId = doctor.Id,
                     BirthDate = doctor.BirthDate,
                     Image = doctor.Image,
                     Gender = doctor.Gender,

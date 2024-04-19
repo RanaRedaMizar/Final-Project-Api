@@ -7,11 +7,11 @@ namespace Final_Project_Api.Data.Models
         
         public string Description { get; set; } = null!;
 
-        public int AppointmentId { get; set; }
+        public int BookingId { get; set; }
 
         public int MedicineId { get; set; }
 
-        public Appointment Appointment { get; set; }
+        public Booking Booking { get; set; }
 
         public Medicine Medicine { get; set; }
 

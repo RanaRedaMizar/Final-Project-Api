@@ -1,5 +1,4 @@
 ﻿using Final_Project_Api.Data.Enums;
-using Final_Project_Api.Data.Validations;
 using System.ComponentModel.DataAnnotations;
 
 namespace Final_Project_Api.Data.DToModels

@@ -28,7 +28,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
                     DoctorId = newAppointment.DoctorId,
                     Day = newAppointment.Day,
                     Price = newAppointment.Price,
-                    AppointmentTimes = newAppointment.AppointmentTimes,
+                    Date = newAppointment.Date,
                 };
 
                 _context.Appointments.Add(appointment);
@@ -43,7 +43,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
 
         public Appointment UpdateAppointment(int id, AppointmentDTO updatedAppointment)
         {
-            var existingAppointment = _context.Appointments.FirstOrDefault(a => a.Id == id);
+            var existingAppointment = _context.Appointments.FirstOrDefault(a => a.AppointmentId == id);
 
             if (existingAppointment != null)
             {
@@ -52,15 +52,17 @@ namespace Final_Project_Api.Infrastructure.Repositories
                     existingAppointment.Price = updatedAppointment.Price;
                     existingAppointment.booked = updatedAppointment.booked;
                     existingAppointment.Day = updatedAppointment.Day;
+                    existingAppointment.Date = updatedAppointment.Date;
                     _context.SaveChanges();
 
 
                     var appointment = new Appointment
                     {
-                        Id = existingAppointment.Id,
+                        AppointmentId = existingAppointment.AppointmentId,
                         booked = existingAppointment.booked,
                         Day = existingAppointment.Day,
                         Price = updatedAppointment.Price,
+                        Date = updatedAppointment.Date,
                     };
                     return appointment;
                 }
@@ -76,7 +78,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
 
         public void DeleteAppointment(int id)
         {
-            var appointment = _context.Appointments.FirstOrDefault(x => x.Id == id);
+            var appointment = _context.Appointments.FirstOrDefault(x => x.AppointmentId == id);
             if (appointment != null)
             {
                 if (appointment.booked == false)
@@ -109,7 +111,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
 
             try
             {
-                var appointment = await _context.Appointments.FirstOrDefaultAsync(p => p.Id == id);
+                var appointment = await _context.Appointments.FirstOrDefaultAsync(p => p.AppointmentId == id);
 
                 if (appointment == null)
                 {
@@ -122,7 +124,8 @@ namespace Final_Project_Api.Infrastructure.Repositories
                     Day = appointment.Day,
                     DoctorId = appointment.DoctorId,
                     Price = appointment.Price,
-                    Id = appointment.Id
+                    AppointmentId = appointment.AppointmentId,
+                    Date = appointment.Date
                 };
 
                 return appointmentDto;

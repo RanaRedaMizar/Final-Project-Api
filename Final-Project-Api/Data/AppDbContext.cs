@@ -17,7 +17,6 @@ namespace Final_Project_Api.Data
         public DbSet<AppointmentDiagnose> AppointmentDiagnoses { get; set; }
         public DbSet<Disease> Diseases { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
-        public DbSet<AppointmentTime> AppointmentTimes { get; set; }
         public DbSet<Booking> Bookings { get; set; }
        
 
@@ -31,7 +30,6 @@ namespace Final_Project_Api.Data
         {
             modelBuilder.ApplyConfiguration<Booking>(new BookingConfiguration());
             modelBuilder.ApplyConfiguration<Appointment>(new AppointmentConfiguration());
-            modelBuilder.ApplyConfiguration<AppointmentTime>(new AppointmentTimeConfiguration());
             modelBuilder.ApplyConfiguration<Specialization>(new SpecializationConfiguration());
            
 

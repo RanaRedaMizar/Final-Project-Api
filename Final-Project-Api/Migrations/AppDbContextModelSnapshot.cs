@@ -24,11 +24,11 @@ namespace Final_Project_Api.Migrations
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.AnalysisType", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AnalysisTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AnalysisTypeId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -38,18 +38,18 @@ namespace Final_Project_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("AnalysisTypeId");
 
                     b.ToTable("AnalysisTypes");
                 });
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.Appointment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("AppointmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AppointmentId"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -68,7 +68,7 @@ namespace Final_Project_Api.Migrations
                     b.Property<bool>("booked")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
+                    b.HasKey("AppointmentId");
 
                     b.HasIndex("DoctorId");
 
@@ -77,13 +77,13 @@ namespace Final_Project_Api.Migrations
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.AppointmentAnalysis", b =>
                 {
-                    b.Property<int>("AppointmentId")
+                    b.Property<int>("BookingId")
                         .HasColumnType("int");
 
                     b.Property<int>("AnalysisTypeId")
                         .HasColumnType("int");
 
-                    b.HasKey("AppointmentId", "AnalysisTypeId");
+                    b.HasKey("BookingId", "AnalysisTypeId");
 
                     b.HasIndex("AnalysisTypeId");
 
@@ -92,7 +92,7 @@ namespace Final_Project_Api.Migrations
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.AppointmentDiagnose", b =>
                 {
-                    b.Property<int>("AppointmentId")
+                    b.Property<int>("BookingId")
                         .HasColumnType("int");
 
                     b.Property<int>("DiseaseId")
@@ -102,7 +102,7 @@ namespace Final_Project_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AppointmentId", "DiseaseId");
+                    b.HasKey("BookingId", "DiseaseId");
 
                     b.HasIndex("DiseaseId");
 
@@ -111,7 +111,7 @@ namespace Final_Project_Api.Migrations
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.AppointmentMedicine", b =>
                 {
-                    b.Property<int>("AppointmentId")
+                    b.Property<int>("BookingId")
                         .HasColumnType("int");
 
                     b.Property<int>("MedicineId")
@@ -121,41 +121,20 @@ namespace Final_Project_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("AppointmentId", "MedicineId");
+                    b.HasKey("BookingId", "MedicineId");
 
                     b.HasIndex("MedicineId");
 
                     b.ToTable("AppointmentMedicines");
                 });
 
-            modelBuilder.Entity("Final_Project_Api.Data.Models.AppointmentTime", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AppointmentId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppointmentId");
-
-                    b.ToTable("AppointmentTimes");
-                });
-
             modelBuilder.Entity("Final_Project_Api.Data.Models.Booking", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("BookingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"));
 
                     b.Property<int>("AppointmentId")
                         .HasColumnType("int");
@@ -185,7 +164,7 @@ namespace Final_Project_Api.Migrations
                     b.Property<int>("TotalBookings")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("BookingId");
 
                     b.HasIndex("AppointmentId");
 
@@ -198,11 +177,11 @@ namespace Final_Project_Api.Migrations
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.Disease", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DiseaseId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DiseaseId"));
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -216,7 +195,7 @@ namespace Final_Project_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("DiseaseId");
 
                     b.ToTable("Diseases");
                 });
@@ -305,11 +284,11 @@ namespace Final_Project_Api.Migrations
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.Medicine", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MedicineId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MedicineId"));
 
                     b.Property<string>("BrandName")
                         .IsRequired()
@@ -323,7 +302,7 @@ namespace Final_Project_Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("MedicineId");
 
                     b.ToTable("Medicines");
                 });
@@ -407,18 +386,18 @@ namespace Final_Project_Api.Migrations
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.Specialization", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("SpecializationId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpecializationId"));
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.HasKey("Id");
+                    b.HasKey("SpecializationId");
 
                     b.ToTable("Specializations");
                 });
@@ -442,22 +421,22 @@ namespace Final_Project_Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Final_Project_Api.Data.Models.Appointment", "Appointment")
+                    b.HasOne("Final_Project_Api.Data.Models.Booking", "Booking")
                         .WithMany("AppointmentAnalysiss")
-                        .HasForeignKey("AppointmentId")
+                        .HasForeignKey("BookingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AnalysisType");
 
-                    b.Navigation("Appointment");
+                    b.Navigation("Booking");
                 });
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.AppointmentDiagnose", b =>
                 {
-                    b.HasOne("Final_Project_Api.Data.Models.Appointment", "Appointment")
+                    b.HasOne("Final_Project_Api.Data.Models.Booking", "Booking")
                         .WithMany("AppointmentDiagnoses")
-                        .HasForeignKey("AppointmentId")
+                        .HasForeignKey("BookingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -467,16 +446,16 @@ namespace Final_Project_Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Appointment");
+                    b.Navigation("Booking");
 
                     b.Navigation("Disease");
                 });
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.AppointmentMedicine", b =>
                 {
-                    b.HasOne("Final_Project_Api.Data.Models.Appointment", "Appointment")
+                    b.HasOne("Final_Project_Api.Data.Models.Booking", "Booking")
                         .WithMany("AppointmentMedicines")
-                        .HasForeignKey("AppointmentId")
+                        .HasForeignKey("BookingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -486,20 +465,9 @@ namespace Final_Project_Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Appointment");
+                    b.Navigation("Booking");
 
                     b.Navigation("Medicine");
-                });
-
-            modelBuilder.Entity("Final_Project_Api.Data.Models.AppointmentTime", b =>
-                {
-                    b.HasOne("Final_Project_Api.Data.Models.Appointment", "Appointment")
-                        .WithMany("AppointmentTimes")
-                        .HasForeignKey("AppointmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Appointment");
                 });
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.Booking", b =>
@@ -541,15 +509,13 @@ namespace Final_Project_Api.Migrations
                     b.Navigation("AppointmentAnalysiss");
                 });
 
-            modelBuilder.Entity("Final_Project_Api.Data.Models.Appointment", b =>
+            modelBuilder.Entity("Final_Project_Api.Data.Models.Booking", b =>
                 {
                     b.Navigation("AppointmentAnalysiss");
 
                     b.Navigation("AppointmentDiagnoses");
 
                     b.Navigation("AppointmentMedicines");
-
-                    b.Navigation("AppointmentTimes");
                 });
 
             modelBuilder.Entity("Final_Project_Api.Data.Models.Disease", b =>

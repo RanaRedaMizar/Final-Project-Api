@@ -77,7 +77,7 @@ namespace Final_Project_Api.Controllers
 
                 var patientDto = new PateintDTO()
                 {
-                    Id = patient.Id,
+                    PateintId = patient.Id,
                     BirthDate = patient.BirthDate,
                     Image = patient.Image,
                     Gender = patient.Gender,

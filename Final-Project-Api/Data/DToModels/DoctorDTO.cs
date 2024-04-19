@@ -1,5 +1,4 @@
 ﻿using Final_Project_Api.Data.Enums;
-using Final_Project_Api.Data.Validations;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -8,7 +7,7 @@ namespace Final_Project_Api.Data.DToModels
     public class DoctorDTO : LoginDto
     {
         [Key,Required]
-        public string Id { get; set; }
+        public string DoctorId { get; set; }
 
         [Required, MinLength(3), MaxLength(64)]
         public string FirstName { get; set; }

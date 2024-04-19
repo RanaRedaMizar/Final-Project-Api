@@ -1,14 +1,13 @@
 ﻿using Final_Project_Api.Data.Enums;
-using Final_Project_Api.Data.Validations;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+
 
 namespace Final_Project_Api.Data.DToModels
 {
     public partial class PateintDTO : LoginDto
     {
         [Key,Required]
-        public string Id { get; set; }
+        public string PateintId { get; set; }
 
         [Required, MinLength(3), MaxLength(64)]
         public string FirstName { get; set; }

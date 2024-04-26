@@ -83,7 +83,6 @@ namespace Final_Project_Api.Controllers
                     BirthDate = patient.BirthDate,
                     Image = patient.Image,
                     Gender = patient.Gender,
-                    Email = patient.Email,
                     FirstName = patient.FirstName,
                     LastName = patient.LastName,
                     Address = patient.Address,

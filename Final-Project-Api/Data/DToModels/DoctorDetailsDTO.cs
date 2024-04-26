@@ -4,8 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Final_Project_Api.Data.DToModels
 {
-    public class DoctorDTO : LoginDto
+    public class DoctorDetailsDTO : LoginDto
     {
+        [Key, Required]
+        public string DoctorId { get; set; }
+
+        public string Email { get; set; }
+
         [Required, MinLength(3), MaxLength(64)]
         public string FirstName { get; set; }
 

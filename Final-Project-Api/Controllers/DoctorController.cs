@@ -43,9 +43,6 @@ namespace Final_Project_Api.Controllers
             }
         }
 
-
-
-
         [HttpGet("doctorsCount")]
         public async Task<IActionResult> CountDoctors()
         {
@@ -74,7 +71,7 @@ namespace Final_Project_Api.Controllers
                     return NotFound();
                 }
 
-                var doctorDto = new DoctorDTO()
+                var doctorDto = new DoctorDetailsDTO()
                 {
                     DoctorId = doctor.Id,
                     BirthDate = doctor.BirthDate,
@@ -98,72 +95,42 @@ namespace Final_Project_Api.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AddDoctor([FromForm] DoctorDTO addDoctor)
+        public async Task<IActionResult> AddDoctor([FromBody] DoctorDTO addDoctor)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                /**      var imageFile = addDoctor.ImageFile;
-
-                      if (imageFile != null && imageFile.Length > 0)
-                      {
-                          var imagePath = ProcessImageFile(imageFile);
-                          addDoctor.Image = imagePath;
-                      }
-                **/
-                var user = new ApplicationUser
-                {
-                    FirstName = addDoctor.FirstName,
-                    LastName = addDoctor.LastName,
-                    Email = addDoctor.Email,
-                    Image = addDoctor.Image,
-                    Phone = addDoctor.Phone,
-                    Gender = addDoctor.Gender,
-                    Address = addDoctor.Address,
-                };
-
-                var result = await _userManager.CreateAsync(user, addDoctor.Password);
-
-                if (!result.Succeeded)
-                {
-                    return BadRequest(new { Message = "Failed to create Doctor", result.Errors });
-                }
-
-                await _userManager.AddToRoleAsync(user, "Doctor");
-
-                var doctorToAdd = new Doctor
-                {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    PasswordHash = user.PasswordHash,
-                    Image = user.Image,
-                    Phone = user.Phone,
-                    Gender = user.Gender,
-                    Address = user.Address,
-
-        SpecializeId = addDoctor.SpecializeId,
-                };
-
-                var addDoctorResult = _doctorservice.AddDoctor(addDoctor);
-
-                if (!addDoctorResult)
-                {
-                    await _userManager.DeleteAsync(user);
-                    return BadRequest("Failed to add doctor.");
-                }
-
-                return Ok(true);
+                return BadRequest(ModelState);
             }
-            catch (Exception ex)
+
+            var user = new Doctor
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+                FirstName = addDoctor.FirstName,
+                LastName = addDoctor.LastName,
+                Email = addDoctor.Email,
+                UserName = addDoctor.Email,
+                Image = addDoctor.Image,
+                Phone = addDoctor.Phone,
+                Gender = addDoctor.Gender,
+                Address = addDoctor.Address,
+                SpecializeId = addDoctor.SpecializeId,
+            };
+
+            var result = await _userManager.CreateAsync(user, addDoctor.Password);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { Message = "Failed to create Doctor", result.Errors });
             }
+
+            var updateDoctorResult = _doctorservice.UpdateDoctor(user.Id, addDoctor);
+
+            if (!updateDoctorResult)
+            {
+                await _userManager.DeleteAsync(user);
+                return BadRequest("Failed to add doctor.");
+            }
+
+            return Ok();
         }
 
 
@@ -223,9 +190,5 @@ namespace Final_Project_Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
             }
         }
-
-
-
-
     }
 }

@@ -1,4 +1,3 @@
-
 using Final_Project_Api.Data;
 using Final_Project_Api.Data.Models;
 using Final_Project_Api.Infrastructure.Helpers;
@@ -68,7 +67,7 @@ namespace Final_Project_Api
                 .AddControllers()
                 .AddJsonOptions(options =>
                 {
-                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 });
 
 

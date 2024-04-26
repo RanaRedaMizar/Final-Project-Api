@@ -9,6 +9,7 @@ namespace Final_Project_Api.Infrastructure.Helpers
         public AutoMapperProfile()
         {
             CreateMap<Patient, PatientDetailsDto>();
+            CreateMap<Doctor, DoctorDetailsDTO>();
         }
     }
 }

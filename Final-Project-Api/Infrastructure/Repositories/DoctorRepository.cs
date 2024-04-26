@@ -134,12 +134,13 @@ namespace Final_Project_Api.Infrastructure.Repositories
             {
                 currentDoctor.FirstName = updatedDoctor.FirstName;
                 currentDoctor.LastName = updatedDoctor.LastName;
-                currentDoctor.Email = updatedDoctor.Email;
                 currentDoctor.Phone = updatedDoctor.Phone;
                 currentDoctor.Gender = updatedDoctor.Gender;
                 currentDoctor.Address = updatedDoctor.Address;
                 currentDoctor.BirthDate = updatedDoctor.BirthDate;
+                currentDoctor.SpecializeId = updatedDoctor.SpecializeId;
 
+                _context.Doctors.Update(currentDoctor);
                 _context.SaveChanges();
                 return true;
             }

@@ -16,7 +16,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
         }
 
 
-        public bool AddPatient(PateintDTO pateintDTO)
+        public bool AddPatient(PatientDto pateintDTO)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
             return patient;
         }
 
-        public bool UpdatePatient(string id, PateintDTO updatedPatient)
+        public bool UpdatePatient(string id, PatientDto updatedPatient)
         {
             var currentPatient = _context.Patients.FirstOrDefault(d => d.Id == id);
 
@@ -123,6 +123,9 @@ namespace Final_Project_Api.Infrastructure.Repositories
                 currentPatient.Gender = updatedPatient.Gender;
                 currentPatient.Address = updatedPatient.Address;
                 currentPatient.BirthDate = updatedPatient.BirthDate;
+                currentPatient.Age = updatedPatient.Age;
+
+                _context.Patients.Update(currentPatient);
 
                 _context.SaveChanges();
                 return true;

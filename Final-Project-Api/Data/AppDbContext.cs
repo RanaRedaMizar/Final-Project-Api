@@ -21,8 +21,7 @@ namespace Final_Project_Api.Data
        
 
 
-        public AppDbContext(DbContextOptions<AppDbContext> options)
-       : base(options) { }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
 
 

@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Final_Project_Api.Data.DToModels
 {
-
-    public class PatientDto : LoginDto
+    public class PatientDetailsDto
     {
+        public string Id { get;set; }
 
         [Required, MinLength(3), MaxLength(64)]
         public string FirstName { get; set; }
@@ -19,7 +19,7 @@ namespace Final_Project_Api.Data.DToModels
         public string Phone { get; set; }
         public int Age { get; set; }
         public GendersEnum Gender { get; set; }
-        //   public IFormFile ImageFile { get; set; }
+     //   public IFormFile ImageFile { get; set; }
         public string? Image { get; set; }
     }
 }

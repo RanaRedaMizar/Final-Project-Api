@@ -1,4 +1,5 @@
-﻿using Final_Project_Api.Data.DToModels;
+﻿using AutoMapper;
+using Final_Project_Api.Data.DToModels;
 using Final_Project_Api.Data.Models;
 using Final_Project_Api.Infrastructure.Services;
 using Final_Project_Api.Interfaces.Repositories;
@@ -17,16 +18,15 @@ namespace Final_Project_Api.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserRepository auth;
+        private readonly IMapper _mapper;
 
-
-        public PatientController(IPatientService patientService, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> userManager, IUserRepository auth)
+        public PatientController(IPatientService patientService, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> userManager, IUserRepository auth, IMapper mapper)
         {
             _patientService = patientService;
             _webHostEnvironment = webHostEnvironment;
             _userManager = userManager;
             this.auth = auth;
-
-
+            _mapper = mapper;
         }
 
 
@@ -36,7 +36,9 @@ namespace Final_Project_Api.Controllers
             try
             {
                 var paginatedPatients = _patientService.GetPatients(page, pageSize, search);
-                return Ok(paginatedPatients);
+                var response = _mapper.Map<List<PatientDetailsDto>>(paginatedPatients);
+
+                return Ok(response);
             }
             catch (Exception ex)
             {

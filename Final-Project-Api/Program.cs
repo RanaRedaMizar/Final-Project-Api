@@ -1,4 +1,3 @@
-
 using Final_Project_Api.Data;
 using Final_Project_Api.Data.Models;
 using Final_Project_Api.Infrastructure.Helpers;
@@ -21,7 +20,15 @@ namespace Final_Project_Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-           builder.Services
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("constr"));
+            });
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+
+
+            builder.Services
                 .AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -34,49 +41,37 @@ namespace Final_Project_Api
                         var key = new SymmetricSecurityKey(
                             Encoding.UTF8.GetBytes(builder.Configuration["JWT:SecretKey"])
                         );
-            token.TokenValidationParameters = new TokenValidationParameters()
-            {
-                IssuerSigningKey = key,
-                ValidIssuer = builder.Configuration["JWT:Issuer"],
-                ValidAudience = builder.Configuration["JWT:Audience"],
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
+                        token.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            IssuerSigningKey = key,
+                            ValidIssuer = builder.Configuration["JWT:Issuer"],
+                            ValidAudience = builder.Configuration["JWT:Audience"],
+                            ValidateIssuer = true,
+                            ValidateAudience = true,
+                            ValidateLifetime = true,
+                            ClockSkew = TimeSpan.Zero
+                        };
 
-            token.Events = new JwtBearerEvents
-            {
-                OnMessageReceived = context =>
-                {
-                    var accessToken = context.Request.Cookies["accessToken"];
-                    return Task.CompletedTask;
-                }
-            };
-        }
-    );
+                        token.Events = new JwtBearerEvents
+                        {
+                            OnMessageReceived = context =>
+                            {
+                                var accessToken = context.Request.Cookies["accessToken"];
+                                return Task.CompletedTask;
+                            }
+                        };
+                    }
+                );
 
             builder.Services
                 .AddControllers()
                 .AddJsonOptions(options =>
                 {
-                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
                 });
-            ;
 
 
             builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection(("JWT")));
-
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
-
-            builder.Services.AddDbContextPool<AppDbContext>(
-                             options =>
-                                 options.UseSqlServer(
-                                     builder.Configuration.GetConnectionString("constr")
-                                 )
-                         );
-
-
 
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
@@ -87,7 +82,6 @@ namespace Final_Project_Api
             builder.Services.AddScoped<IAnalysisTypeRepository, AnalysisTypeRepository>();
             builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();
             builder.Services.AddScoped<IDiseaseRepository, DiseaseRepository>();
-
 
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IPatientService, PatientService>();
@@ -103,6 +97,8 @@ namespace Final_Project_Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddAutoMapper(typeof(Program));
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -117,7 +113,6 @@ namespace Final_Project_Api
             app.UseAuthorization();
 
             app.MapControllers();
-
 
             app.Run();
         }

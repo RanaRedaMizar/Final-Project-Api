@@ -16,7 +16,7 @@ namespace Final_Project_Api.Infrastructure.Services
             _patientRepository = patientRepository;
         }
 
-        public bool AddPatient(PateintDTO Pateint)
+        public bool AddPatient(PatientDto Pateint)
         {
             return _patientRepository.AddPatient(Pateint);
         }
@@ -57,7 +57,7 @@ namespace Final_Project_Api.Infrastructure.Services
         }
 
 
-        public bool UpdatePatient(string id, PateintDTO Patient)
+        public bool UpdatePatient(string id, PatientDto Patient)
         {
             return _patientRepository.UpdatePatient(id, Patient);
         }

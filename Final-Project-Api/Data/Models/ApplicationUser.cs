@@ -24,6 +24,7 @@ namespace Final_Project_Api.Data.Models
         public string Phone { get; set; }
 
         public GendersEnum Gender { get; set; }
+        public DateTime BirthDate { get; set; }
     }
 }
 

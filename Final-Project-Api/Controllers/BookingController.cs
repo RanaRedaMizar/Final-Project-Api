@@ -4,6 +4,7 @@ using Final_Project_Api.Data.Models;
 using Final_Project_Api.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Final_Project_Api.Controllers
 {
@@ -113,7 +114,7 @@ namespace Final_Project_Api.Controllers
                     var newBooking = new Booking
                     {
                         Status = BookingStatusEnum.Pending,
-                        TotalBookings = patient.TotalBookings + 1,
+                        //TotalBookings = patient.Bookings.Count + 1,
                         Price =  appointment.Price,
                         AppointmentId = appointmentId,
                         PatientId = patientId,

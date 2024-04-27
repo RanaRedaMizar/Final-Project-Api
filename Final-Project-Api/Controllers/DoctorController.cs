@@ -1,4 +1,5 @@
-﻿using Final_Project_Api.Data;
+﻿using AutoMapper;
+using Final_Project_Api.Data;
 using Final_Project_Api.Data.DToModels;
 using Final_Project_Api.Data.Models;
 using Final_Project_Api.Interfaces.Repositories;
@@ -16,156 +17,100 @@ namespace Final_Project_Api.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserRepository auth;
+        private readonly IMapper _mapper;
 
-
-        public DoctorController(IDoctorService doctorservice, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> userManager, IUserRepository auth)
+        public DoctorController(IDoctorService doctorservice, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> userManager, IUserRepository auth, IMapper mapper)
         {
             _doctorservice = doctorservice;
             _webHostEnvironment = webHostEnvironment;
             _userManager = userManager;
             this.auth = auth;
-
+            _mapper = mapper;
         }
-
 
 
         [HttpGet("GetAllDoctors")]
         public async Task<IActionResult> GetDoctors(int page = 1, int pageSize = 2, string search = "")
         {
-            try
-            {
-                var paginatedDoctors = _doctorservice.GetDoctors(page, pageSize, search);
-                return Ok(paginatedDoctors);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-            }
+            var paginatedDoctors = _doctorservice.GetDoctors(page, pageSize, search);
+            var response = _mapper.Map<List<DoctorDetailsDTO>>(paginatedDoctors);
+            return Ok(response);
         }
-
-
-
 
         [HttpGet("doctorsCount")]
         public async Task<IActionResult> CountDoctors()
         {
-            try
-            {
-                var count = _doctorservice.CountDoctors();
-                return Ok(count);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-            }
+            var count = _doctorservice.CountDoctors();
+            return Ok(count);
         }
-
 
 
         [HttpGet("GetDoctorById")]
         public async Task<IActionResult> GetDoctor(string id)
         {
-            try
+            var doctor = _doctorservice.GetDoctor(id);
+
+            if (doctor == null)
             {
-                var doctor = _doctorservice.GetDoctor(id);
-
-                if (doctor == null)
-                {
-                    return NotFound();
-                }
-
-                var doctorDto = new DoctorDTO()
-                {
-                    DoctorId = doctor.Id,
-                    BirthDate = doctor.BirthDate,
-                    Image = doctor.Image,
-                    Gender = doctor.Gender,
-                    Email = doctor.Email,
-                    FirstName = doctor.FirstName,
-                    LastName = doctor.LastName,
-                    Address = doctor.Address,
-                    Phone = doctor.Phone,
-                    SpecializeId = doctor.SpecializeId,
-                };
-
-                return Ok(doctorDto);
+                return NotFound();
             }
-            catch (Exception ex)
+
+            var doctorDto = new DoctorDetailsDTO()
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
-            }
+                Id = doctor.Id,
+                BirthDate = doctor.BirthDate,
+                Image = doctor.Image,
+                Gender = doctor.Gender,
+                Email = doctor.Email,
+                FirstName = doctor.FirstName,
+                LastName = doctor.LastName,
+                Address = doctor.Address,
+                Phone = doctor.Phone,
+                SpecializeId = doctor.SpecializeId,
+            };
+
+            return Ok(doctorDto);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AddDoctor([FromForm] DoctorDTO addDoctor)
+        public async Task<IActionResult> AddDoctor([FromBody] DoctorDTO addDoctor)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                /**      var imageFile = addDoctor.ImageFile;
-
-                      if (imageFile != null && imageFile.Length > 0)
-                      {
-                          var imagePath = ProcessImageFile(imageFile);
-                          addDoctor.Image = imagePath;
-                      }
-                **/
-                var user = new ApplicationUser
-                {
-                    FirstName = addDoctor.FirstName,
-                    LastName = addDoctor.LastName,
-                    Email = addDoctor.Email,
-                    Image = addDoctor.Image,
-                    Phone = addDoctor.Phone,
-                    Gender = addDoctor.Gender,
-                    Address = addDoctor.Address,
-                };
-
-                var result = await _userManager.CreateAsync(user, addDoctor.Password);
-
-                if (!result.Succeeded)
-                {
-                    return BadRequest(new { Message = "Failed to create Doctor", result.Errors });
-                }
-
-                await _userManager.AddToRoleAsync(user, "Doctor");
-
-                var doctorToAdd = new Doctor
-                {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    PasswordHash = user.PasswordHash,
-                    Image = user.Image,
-                    Phone = user.Phone,
-                    Gender = user.Gender,
-                    Address = user.Address,
-
-        SpecializeId = addDoctor.SpecializeId,
-                };
-
-                var addDoctorResult = _doctorservice.AddDoctor(addDoctor);
-
-                if (!addDoctorResult)
-                {
-                    await _userManager.DeleteAsync(user);
-                    return BadRequest("Failed to add doctor.");
-                }
-
-                return Ok(true);
+                return BadRequest(ModelState);
             }
-            catch (Exception ex)
+
+            var user = new Doctor
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+                FirstName = addDoctor.FirstName,
+                LastName = addDoctor.LastName,
+                Email = addDoctor.Email,
+                UserName = addDoctor.Email,
+                Image = addDoctor.Image,
+                Phone = addDoctor.Phone,
+                Gender = addDoctor.Gender,
+                Address = addDoctor.Address,
+                SpecializeId = addDoctor.SpecializeId,
+            };
+
+            var result = await _userManager.CreateAsync(user, addDoctor.Password);
+
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { Message = "Failed to create Doctor", result.Errors });
             }
+
+            var updateDoctorResult = _doctorservice.UpdateDoctor(user.Id, addDoctor);
+
+            if (!updateDoctorResult)
+            {
+                await _userManager.DeleteAsync(user);
+                return BadRequest("Failed to add doctor.");
+            }
+
+            return Ok();
         }
-
 
         private string ProcessImageFile(IFormFile imageFile)
         {
@@ -180,7 +125,6 @@ namespace Final_Project_Api.Controllers
 
             return $"/images/{uniqueFileName}";
         }
-
 
 
         [HttpPut("UpdateDoctor")]
@@ -203,7 +147,6 @@ namespace Final_Project_Api.Controllers
             }
         }
 
-
         [HttpDelete("DeleteDoctor")]
         public async Task<IActionResult> DeleteDoctor(string id)
         {
@@ -223,9 +166,5 @@ namespace Final_Project_Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
             }
         }
-
-
-
-
     }
 }

@@ -7,8 +7,8 @@ namespace Final_Project_Api.Interfaces.Repositories
     {
         List<Patient> GetPatients(int page, int pageSize, string search);
         Patient GetPatient(string id);
-        bool AddPatient(PateintDTO AddedPatientDto);
-        bool UpdatePatient(string id, PateintDTO Patient);
+        bool AddPatient(PatientDto AddedPatientDto);
+        bool UpdatePatient(string id, PatientDto Patient);
         bool DeletePatient(string id);
         Patient SearchPatient(string name);
         int CounPatients();

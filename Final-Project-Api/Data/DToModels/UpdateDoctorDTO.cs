@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Final_Project_Api.Data.DToModels
 {
-    public class DoctorDTO : LoginDto
+    public class UpdateDoctorDTO
     {
         [Required, MinLength(3), MaxLength(64)]
         public string FirstName { get; set; }

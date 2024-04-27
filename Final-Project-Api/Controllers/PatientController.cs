@@ -1,4 +1,5 @@
-﻿using Final_Project_Api.Data.DToModels;
+﻿using AutoMapper;
+using Final_Project_Api.Data.DToModels;
 using Final_Project_Api.Data.Models;
 using Final_Project_Api.Infrastructure.Services;
 using Final_Project_Api.Interfaces.Repositories;
@@ -17,16 +18,15 @@ namespace Final_Project_Api.Controllers
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IUserRepository auth;
+        private readonly IMapper _mapper;
 
-
-        public PatientController(IPatientService patientService, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> userManager, IUserRepository auth)
+        public PatientController(IPatientService patientService, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> userManager, IUserRepository auth, IMapper mapper)
         {
             _patientService = patientService;
             _webHostEnvironment = webHostEnvironment;
             _userManager = userManager;
             this.auth = auth;
-           
-
+            _mapper = mapper;
         }
 
 
@@ -36,7 +36,9 @@ namespace Final_Project_Api.Controllers
             try
             {
                 var paginatedPatients = _patientService.GetPatients(page, pageSize, search);
-                return Ok(paginatedPatients);
+                var response = _mapper.Map<List<PatientDetailsDto>>(paginatedPatients);
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
@@ -75,18 +77,16 @@ namespace Final_Project_Api.Controllers
                     return NotFound();
                 }
 
-                var patientDto = new PateintDTO()
+                var patientDto = new PatientDetailsDto()
                 {
-                    PateintId = patient.Id,
+                    Id = patient.Id,
                     BirthDate = patient.BirthDate,
                     Image = patient.Image,
                     Gender = patient.Gender,
-                    Email = patient.Email,
                     FirstName = patient.FirstName,
                     LastName = patient.LastName,
                     Address = patient.Address,
                     Phone = patient.PhoneNumber,
-                   
                 };
 
                 return Ok(patientDto);
@@ -98,73 +98,37 @@ namespace Final_Project_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPatient([FromForm] PateintDTO addPateint)
+        public async Task<IActionResult> AddPatient([FromBody] PatientDto request)
         {
-            try
+            if (!ModelState.IsValid)
             {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-              /**  var imageFile = addPateint.ImageFile;
-
-                if (imageFile != null && imageFile.Length > 0)
-                {
-                    var imagePath = ProcessImageFile(imageFile);
-                    addPateint.Image = imagePath;
-                }
-              **/
-
-                var user = new ApplicationUser
-                {
-                    FirstName = addPateint.FirstName,
-                    LastName = addPateint.LastName,
-                    Email = addPateint.Email,
-                    Image = addPateint.Image,
-                    Phone = addPateint.Phone,
-                    Address = addPateint.Address,
-                    Gender = addPateint.Gender,
-                };
-
-                var result = await _userManager.CreateAsync(user, addPateint.Password);
-
-                if (!result.Succeeded)
-                {
-                    return BadRequest(new { Message = "Failed to create Pateint", Errors = result.Errors });
-                }
-
-                await _userManager.AddToRoleAsync(user, "Pateint");
-
-                var pateintToAdd = new Patient
-
-        {
-            Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    PasswordHash = user.PasswordHash,
-                    Image = user.Image,
-                    Phone = user.Phone,
-                    Gender = user.Gender,
-                    Address = user.Address,
-
-                };
-
-                var addPateintResult = _patientService.AddPatient(addPateint);
-
-                if (!addPateintResult)
-                {
-                    await _userManager.DeleteAsync(user);
-                    return BadRequest("Failed to add pateint.");
-                }
-
-                return Ok(true);
+                return BadRequest(ModelState);
             }
-            catch (Exception ex)
+
+            var user = new Patient
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                Email = request.Email,
+                UserName = request.Email,
+                Image = request.Image,
+                Phone = request.Phone,
+                Address = request.Address,
+                Gender = request.Gender
+            };
+
+            var result = await _userManager.CreateAsync(user, request.Password);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { Message = "Failed to create Pateint", Errors = result.Errors });
             }
+
+            // to update patient specific info like Age as user manager only inserts user specific columns
+            var updateSucceeded = _patientService.UpdatePatient(user.Id, request);
+            if (!updateSucceeded)
+                return BadRequest();
+
+            return Ok();
         }
 
 
@@ -184,7 +148,7 @@ namespace Final_Project_Api.Controllers
 
 
         [HttpPut("UpdatePatient")]
-        public async Task<IActionResult> UpdatePatient(string id, [FromBody] PateintDTO pateintdtO)
+        public async Task<IActionResult> UpdatePatient(string id, [FromBody] PatientDto pateintdtO)
         {
             try
             {
@@ -223,10 +187,6 @@ namespace Final_Project_Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
             }
         }
-
-
-
-      
     }
 }
 

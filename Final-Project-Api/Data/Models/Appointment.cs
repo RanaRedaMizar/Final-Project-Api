@@ -16,7 +16,7 @@ namespace Final_Project_Api.Data.Models
         public bool booked { get; set; } = false;
         public string DoctorId { get; set; }
         public virtual Doctor Doctor { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
        
 
 

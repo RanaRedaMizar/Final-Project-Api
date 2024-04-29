@@ -12,8 +12,7 @@ namespace Final_Project_Api.Data.DToModels
         [Required]
         public string Price { get; set; }
         public bool booked { get; set; } = false;
-        public DateTime Date { get; set; }
-        public Doctor Doctor { get; set; }
+        public string Date { get; set; }
         
     }
 

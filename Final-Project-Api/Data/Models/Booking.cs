@@ -7,10 +7,9 @@ namespace Final_Project_Api.Data.Models
     {
         [Key,Required]
         public int BookingId { get; set; }
-        public DateTime Date { get; set; }
+       // public DateTime Date { get; set; }
         public DateTime CreatedAt { get; set; }
         public string Price { get; set; }
-        public int TotalBookings { get; set; }
         public BookingStatusEnum Status { get; set; } = BookingStatusEnum.Pending;
         public Appointment Appointment { get; set; }
         public int AppointmentId { get; set; }

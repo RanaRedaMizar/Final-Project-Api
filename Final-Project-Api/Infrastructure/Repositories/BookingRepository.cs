@@ -24,7 +24,7 @@ namespace Final_Project_Api.Infrastructure.Repositories
                 Status = bookingDto.Status,
                 Appointment = bookingDto.Appointment,
                 Patient = bookingDto.Patient,
-                TotalBookings = bookingDto.TotalBookings,
+              //  TotalBookings = bookingDto.TotalBookings,
             };
 
             _context.Bookings.Add(booking);

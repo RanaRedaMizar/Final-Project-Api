@@ -124,7 +124,6 @@ namespace Final_Project_Api.Infrastructure.Repositories
                     Day = appointment.Day,
                     DoctorId = appointment.DoctorId,
                     Price = appointment.Price,
-                    AppointmentId = appointment.AppointmentId,
                     Date = appointment.Date
                 };
 

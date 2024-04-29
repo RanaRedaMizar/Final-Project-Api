@@ -3,6 +3,7 @@ using Final_Project_Api.Data.Models;
 using Final_Project_Api.Infrastructure.Helpers;
 using Final_Project_Api.Infrastructure.Repositories;
 using Final_Project_Api.Infrastructure.Services;
+using Final_Project_Api.Interfaces.Helpers;
 using Final_Project_Api.Interfaces.Repositories;
 using Final_Project_Api.Interfaces.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -82,6 +83,7 @@ namespace Final_Project_Api
             builder.Services.AddScoped<IAnalysisTypeRepository, AnalysisTypeRepository>();
             builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();
             builder.Services.AddScoped<IDiseaseRepository, DiseaseRepository>();
+            builder.Services.AddScoped<IJwtHelpService, JwtHelperService>();
 
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IPatientService, PatientService>();

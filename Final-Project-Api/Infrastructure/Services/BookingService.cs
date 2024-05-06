@@ -65,5 +65,19 @@ namespace Final_Project_Api.Infrastructure.Services
             return _bookingRepository.SearchBookingsByPatientIdAsync(id);
 
         }
+        public void AddAppointmentMedicine(int bookingid, int medicineid, string description)
+        {
+            _bookingRepository.AddAppointmentMedicine(bookingid , medicineid , description);
+        }
+
+        public void AddAppointmentAnalysis(int bookingid, int analysisTypeid)
+        {
+            _bookingRepository.AddAppointmentAnalysis(bookingid, analysisTypeid);
+        }
+        public void AddAppointmentDiagnose(int bookingid, int diseaseid, string diagnosesReport)
+        {
+            _bookingRepository.AddAppointmentDiagnose( bookingid,  diseaseid,  diagnosesReport);
+        }
+
     }
 }

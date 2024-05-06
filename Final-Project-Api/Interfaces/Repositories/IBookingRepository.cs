@@ -14,7 +14,9 @@ namespace Final_Project_Api.Interfaces.Repositories
         Task<Booking> CancelBookingAsync(int bookingid, string DoctorId);
         Task<int> BookingCountAsync(string patientId);
         Task<int> BookingCountByDoctorAsync(string doctorId);
-
+        void AddAppointmentMedicine(int bookingid, int medicineid, string description);
+        void AddAppointmentAnalysis(int bookingid, int analysisTypeid);
+        void AddAppointmentDiagnose(int bookingid, int diseaseid, string diagnosesReport);
     }
 }
 

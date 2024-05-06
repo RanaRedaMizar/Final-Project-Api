@@ -13,7 +13,7 @@ namespace Final_Project_Api.Data
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Doctor> Doctors { get; set; }
         public DbSet<AnalysisType> AnalysisTypes { get; set; }
-        public DbSet<AppointmentAnalysis> AppointmentAnalyses { get; set; }
+        public DbSet<AppointmentAnalysis> AppointmentAnalyses  { get; set; }
         public DbSet<AppointmentDiagnose> AppointmentDiagnoses { get; set; }
         public DbSet<Disease> Diseases { get; set; }
         public DbSet<Specialization> Specializations { get; set; }

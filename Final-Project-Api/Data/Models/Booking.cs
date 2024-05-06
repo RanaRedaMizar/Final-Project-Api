@@ -12,7 +12,7 @@ namespace Final_Project_Api.Data.Models
         public string Price { get; set; }
         public BookingStatusEnum Status { get; set; } = BookingStatusEnum.Pending;
         public Appointment Appointment { get; set; }
-        public int AppointmentId { get; set; }
+        public int AppointmentId { get;  set; }
         public Patient Patient { get; set; }
         public string PatientId { get; set; }
 

@@ -6,7 +6,7 @@ namespace Final_Project_Api.Data.DToModels
 {
     public partial class AppointmentDTO
     {
-        public int AppointmentId { get; set; }
+       // public int AppointmentId { get; set; }
         public WeekDaysEnum Day { get; set; }
         public string DoctorId { get; set; }
         [Required]

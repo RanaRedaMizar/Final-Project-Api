@@ -91,6 +91,72 @@ namespace Final_Project_Api.Infrastructure.Repositories
             return await _context.Bookings.Where(b => b.PatientId == patientId)
                 .ToListAsync();
         }
+        public void AddAppointmentMedicine(int bookingid, int medicineid, string description)
+        {
+            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingid);
+            var medicine = _context.Medicines.FirstOrDefault(m => m.MedicineId == medicineid);
+            if (booking == null || medicine == null) 
+                {
+                throw new Exception("Booking or Medicine not found");
+                }
+            var appointmentMedicine = new AppointmentMedicine
+            {
+                BookingId = bookingid,
+                MedicineId = medicineid,
+                Description = description
+            };
+            _context.AppointmentMedicines.Add(appointmentMedicine);
+
+            booking.Status = BookingStatusEnum.Completed;
+
+            _context.SaveChanges();
+
+        }
+
+        public void AddAppointmentAnalysis(int bookingid, int analysisTypeid) 
+        {
+            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingid);
+            var analysis = _context.AnalysisTypes.FirstOrDefault(a => a.AnalysisTypeId == analysisTypeid);
+            if (booking == null || analysis == null)
+            {
+                throw new Exception("Booking or Analysis not found");
+            }
+            var appointmentAnalysis = new AppointmentAnalysis
+            {
+                BookingId = bookingid,
+                AnalysisTypeId = analysisTypeid,
+                
+            };
+            _context.AppointmentAnalyses.Add(appointmentAnalysis);
+
+            booking.Status = BookingStatusEnum.Completed;
+
+            _context.SaveChanges();
+
+        }
+        public void AddAppointmentDiagnose(int bookingid, int diseaseid, string diagnosesReport)
+        {
+
+            var booking = _context.Bookings.FirstOrDefault(b => b.BookingId == bookingid);
+            var diagnose = _context.Diseases.FirstOrDefault(a => a.DiseaseId == diseaseid);
+            if (booking == null || diagnose == null)
+            {
+                throw new Exception("Booking or Disease not found");
+            }
+            var appointmentDiagnose = new AppointmentDiagnose
+            {
+                BookingId = bookingid,
+                DiseaseId = diseaseid,
+                DiagnosesReport = diagnosesReport,
+
+            };
+            _context.AppointmentDiagnoses.Add(appointmentDiagnose);
+
+            booking.Status = BookingStatusEnum.Completed;
+
+            _context.SaveChanges();
+
+        }
     }
 }
 

@@ -17,10 +17,10 @@ namespace Final_Project_Api.Controllers
         private readonly IPatientService _patientService;
         private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IUserRepository auth;
+        private readonly IApplicationUserRepository auth;
         private readonly IMapper _mapper;
 
-        public PatientController(IPatientService patientService, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> userManager, IUserRepository auth, IMapper mapper)
+        public PatientController(IPatientService patientService, IWebHostEnvironment webHostEnvironment, UserManager<ApplicationUser> userManager, IApplicationUserRepository auth, IMapper mapper)
         {
             _patientService = patientService;
             _webHostEnvironment = webHostEnvironment;

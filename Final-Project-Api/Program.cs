@@ -74,7 +74,7 @@ namespace Final_Project_Api
 
             builder.Services.Configure<JWTSettings>(builder.Configuration.GetSection(("JWT")));
 
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
             builder.Services.AddScoped<IPatientRepository, PatientRepository>();
             builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
             builder.Services.AddScoped<ISpecializationRepository, SpecializationRepository>();
@@ -83,9 +83,10 @@ namespace Final_Project_Api
             builder.Services.AddScoped<IAnalysisTypeRepository, AnalysisTypeRepository>();
             builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();
             builder.Services.AddScoped<IDiseaseRepository, DiseaseRepository>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<IJwtHelpService, JwtHelperService>();
 
-            builder.Services.AddScoped<IUserService, UserService>();
+            
             builder.Services.AddScoped<IPatientService, PatientService>();
             builder.Services.AddScoped<IDoctorService, DoctorService>();
             builder.Services.AddScoped<ISpecializationService, SpecializationService>();

@@ -1,17 +1,7 @@
-﻿using Final_Project_Api.Data;
-using Final_Project_Api.Data.DToModels;
-using Final_Project_Api.Data.Models;
-using Final_Project_Api.Infrastructure.Helpers;
+﻿using Final_Project_Api.Data.Models;
 using Final_Project_Api.Interfaces.Helpers;
 using Final_Project_Api.Interfaces.Repositories;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Numerics;
-using System.Security.Claims;
-using System.Text;
 
 namespace Final_Project_Api.Infrastructure.Repositories
 {
@@ -38,8 +28,8 @@ namespace Final_Project_Api.Infrastructure.Repositories
 
                 if (result.Succeeded)
                 {
-                 //   var token = GenerateToken(user);
-                    return user;
+                    var token = GenerateToken(user);
+                    return(user);
                 }
             }
 

@@ -2,6 +2,7 @@
 using Final_Project_Api.Data.DToModels;
 using Final_Project_Api.Data.Models;
 using Final_Project_Api.Infrastructure.Helpers;
+using Final_Project_Api.Interfaces.Helpers;
 using Final_Project_Api.Interfaces.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,11 +19,13 @@ namespace Final_Project_Api.Infrastructure.Repositories
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IJwtHelpService _jwtHelpService;
 
-        public ApplicationUserRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public ApplicationUserRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IJwtHelpService jwtHelpService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _jwtHelpService = jwtHelpService;
         }
 
         public async Task<ApplicationUser> GetUserByUsernameAndPassword(string username, string password)
@@ -35,11 +38,19 @@ namespace Final_Project_Api.Infrastructure.Repositories
 
                 if (result.Succeeded)
                 {
+                 //   var token = GenerateToken(user);
                     return user;
                 }
             }
 
             return null;
         }
+        public string GenerateToken(ApplicationUser user)
+        {
+            // Call the JWT helper service to generate the token
+            return _jwtHelpService.GenerateToken(user);
+        }
+
     }
 }
+

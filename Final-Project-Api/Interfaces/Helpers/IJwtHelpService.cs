@@ -1,10 +1,11 @@
-﻿using System.Security.Claims;
+﻿using Final_Project_Api.Data.Models;
+using System.Security.Claims;
 
 namespace Final_Project_Api.Interfaces.Helpers
 {
     public interface IJwtHelpService
     {
-        public string GenerateToken(string email, string userId, string roleName);
+        public string GenerateToken(ApplicationUser user);
         public ClaimsPrincipal DecodeToken(string accessToken);
     }
 }

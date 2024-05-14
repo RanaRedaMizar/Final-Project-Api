@@ -1,4 +1,5 @@
-﻿using Final_Project_Api.Interfaces.Helpers;
+﻿using Final_Project_Api.Data.Models;
+using Final_Project_Api.Interfaces.Helpers;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -37,13 +38,13 @@ namespace Final_Project_Api.Infrastructure.Helpers
             return handler;
         }
 
-        public string GenerateToken(string email, string userId, string roleName)
+        public string GenerateToken(ApplicationUser user)
         {
+
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, email),
-                new Claim("UserId", userId),
-                new Claim("RoleName", roleName),
+                new Claim(ClaimTypes.Email,user.Email),
+                
             };
 
             var signingCredentials = new SigningCredentials(
@@ -67,5 +68,7 @@ namespace Final_Project_Api.Infrastructure.Helpers
             return handler.WriteToken(securedToken);
         }
     }
+
 }
+
 

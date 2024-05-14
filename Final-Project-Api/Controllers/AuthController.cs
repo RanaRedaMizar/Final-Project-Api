@@ -1,5 +1,7 @@
 ﻿using Final_Project_Api.Data.DToModels;
 using Final_Project_Api.Data.Models;
+using Final_Project_Api.Infrastructure.Helpers;
+using Final_Project_Api.Interfaces.Repositories;
 using Final_Project_Api.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,10 +17,12 @@ namespace Final_Project_Api.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+       
 
         public AuthController(IAuthService authService)
         {
             _authService = authService;
+           
         }
 
         [HttpPost("login")]
@@ -30,8 +34,9 @@ namespace Final_Project_Api.Controllers
             {
                 return NotFound("User Not Found");
             }
+            var token = _authService.GenerateToken(user);
 
-            return Ok();
+            return Ok(new { Token = token });
         }
 
     }

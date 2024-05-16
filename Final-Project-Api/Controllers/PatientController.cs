@@ -4,6 +4,7 @@ using Final_Project_Api.Data.Models;
 using Final_Project_Api.Infrastructure.Services;
 using Final_Project_Api.Interfaces.Repositories;
 using Final_Project_Api.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -96,7 +97,7 @@ namespace Final_Project_Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
             }
         }
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddPatient([FromBody] PatientDto request)
         {

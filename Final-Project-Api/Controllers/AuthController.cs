@@ -3,6 +3,7 @@ using Final_Project_Api.Data.Models;
 using Final_Project_Api.Infrastructure.Helpers;
 using Final_Project_Api.Interfaces.Repositories;
 using Final_Project_Api.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -24,7 +25,7 @@ namespace Final_Project_Api.Controllers
             _authService = authService;
            
         }
-
+        [Authorize]
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto model)
         {
@@ -32,7 +33,7 @@ namespace Final_Project_Api.Controllers
 
             if (user == null)
             {
-                return NotFound("User Not Found");
+                return NotFound("The email and password are incorrect ");
             }
             var token = _authService.GenerateToken(user);
 

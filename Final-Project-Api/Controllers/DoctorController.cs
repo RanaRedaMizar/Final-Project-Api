@@ -4,6 +4,7 @@ using Final_Project_Api.Data.DToModels;
 using Final_Project_Api.Data.Models;
 using Final_Project_Api.Interfaces.Repositories;
 using Final_Project_Api.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,7 +73,7 @@ namespace Final_Project_Api.Controllers
             return Ok(doctorDto);
         }
 
-
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddDoctor([FromBody] DoctorDTO addDoctor)
         {

@@ -73,7 +73,7 @@ namespace Final_Project_Api.Controllers
             return Ok(doctorDto);
         }
 
-        [Authorize]
+        
         [HttpPost]
         public async Task<IActionResult> AddDoctor([FromBody] DoctorDTO addDoctor)
         {

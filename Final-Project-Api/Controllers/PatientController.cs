@@ -97,7 +97,7 @@ namespace Final_Project_Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
             }
         }
-        [Authorize]
+        
         [HttpPost]
         public async Task<IActionResult> AddPatient([FromBody] PatientDto request)
         {

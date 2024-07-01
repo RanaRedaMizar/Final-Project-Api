@@ -25,7 +25,7 @@ namespace Final_Project_Api.Controllers
             _authService = authService;
            
         }
-        [Authorize]
+       
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto model)
         {
